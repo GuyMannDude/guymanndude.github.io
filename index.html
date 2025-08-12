@@ -1,85 +1,26 @@
 <script>
-  // Edit this list.
   const apps = [
-    {
-      name: "Builder Responsive Export",
-      repo: "builder-responsive-export",
-      url: "https://guymanndude.github.io/builder-responsive-export/",
-      desc: "Responsive builder export demo (Vite)."
-    },
-    {
-      name: "Themed Page Builder",
-      repo: "themed-page-builder",
-      url: "https://guymanndude.github.io/themed-page-builder/",
-      desc: "Themeable page builder (Vite + Router)."
-    },
-    {
-      name: "Chatbox Reader",
-      repo: "chatbox-reader",
-      url: "https://guymanndude.github.io/chatbox-reader/",
-      desc: "Paste -> speak/read tool (Vite)."
-    },
-    {
-      name: "Open WebUI API",
-      repo: "open-webui-api",
-      url: "https://guymanndude.github.io/open-webui-api/",
-      desc: "API tests for Open WebUI."
-    },
-    {
-      name: "Finnhub Logger",
-      repo: "finnhub-logger",
-      url: "https://guymanndude.github.io/finnhub-logger/",
-      desc: "Stocks logging & scheduler (Vite)."
-    },
-    {
-      name: "API Key Tester",
-      repo: "api-key-tester",
-      url: "https://guymanndude.github.io/api-key-tester/",
-      desc: "Quick API key tester (Vite)."
-    },
-    {
-      name: "Popular API",
-      repo: "popular-api",
-      url: "https://guymanndude.github.io/popular-api/",
-      desc: "Validate Neon token / API utilities."
-    },
-    {
-      name: "detect-explain-analyze",
-      repo: "the-terminator",
-      url: "https://guymanndude.github.io/the-terminator/",
-      desc: "Detect → explain → analyze (Vite)."
-    },
-    {
-      name: "scrape-export-capture",
-      repo: "scraper-companion",
-      url: "https://guymanndude.github.io/scraper-companion/",
-      desc: "Scrape → export → capture companion."
-    },
-    {
-      name: "automate-stocks-search",
-      repo: "stock-search",
-      url: "https://guymanndude.github.io/stock-search/",
-      desc: "Automated stock search helper (Vite)."
-    },
-    {
-      name: "design-visual-export-1",
-      repo: "orange-builder",
-      url: "https://guymanndude.github.io/orange-builder/",
-      desc: "Visual design export (Vite)."
-    },
-    {
-      name: "design-export-visual",
-      repo: "blue-builder",
-      url: "https://guymanndude.github.io/blue-builder/",
-      desc: "Design export visual (Vite)."
-    }
+    { name: "Builder Responsive Export", repo: "builder-responsive-export", url: "https://guymanndude.github.io/builder-responsive-export/", desc: "Responsive builder export demo (Vite)." },
+    { name: "Themed Page Builder", repo: "themed-page-builder", url: "https://guymanndude.github.io/themed-page-builder/", desc: "Themeable page builder (Vite + Router)." },
+    { name: "Chatbox Reader", repo: "chatbox-reader", url: "https://guymanndude.github.io/chatbox-reader/", desc: "Paste -> speak/read tool (Vite)." },
+    { name: "Open WebUI API", repo: "open-webui-api", url: "https://guymanndude.github.io/open-webui-api/", desc: "API tests for Open WebUI." },
+    { name: "Finnhub Logger", repo: "finnhub-logger", url: "https://guymanndude.github.io/finnhub-logger/", desc: "Stocks logging & scheduler (Vite)." },
+    { name: "API Key Tester", repo: "api-key-tester", url: "https://guymanndude.github.io/api-key-tester/", desc: "Quick API key tester (Vite)." },
+    { name: "Popular API", repo: "popular-api", url: "https://guymanndude.github.io/popular-api/", desc: "Validate Neon token / API utilities." },
+    { name: "detect-explain-analyze", repo: "the-terminator", url: "https://guymanndude.github.io/the-terminator/", desc: "Detect → explain → analyze (Vite)." },
+    { name: "scrape-export-capture", repo: "scraper-companion", url: "https://guymanndude.github.io/scraper-companion/", desc: "Scrape → export → capture companion." },
+    { name: "automate-stocks-search", repo: "stock-search", url: "https://guymanndude.github.io/stock-search/", desc: "Automated stock search helper (Vite)." },
+    { name: "design-visual-export-1", repo: "orange-builder", url: "https://guymanndude.github.io/orange-builder/", desc: "Visual design export (Vite)." },
+    { name: "design-export-visual", repo: "blue-builder", url: "https://guymanndude.github.io/blue-builder/", desc: "Design export visual (Vite)." }
   ];
 
-  const list = document.getElementById("list");
+  const list  = document.getElementById("list");
   const empty = document.getElementById("empty");
-  const q = document.getElementById("q");
+  const q     = document.getElementById("q");
+  const copyBtn = document.getElementById("copy");
 
   function render(filter = "") {
+    if (!list || !empty) return;
     list.innerHTML = "";
     const f = filter.trim().toLowerCase();
     const filtered = apps.filter(a =>
@@ -110,26 +51,30 @@
     });
   }
 
-  q.addEventListener("input", () => render(q.value));
+  if (q) q.addEventListener("input", () => render(q.value));
 
   document.addEventListener("click", (e) => {
-    const t = e.target.closest("button[data-copy]");
+    const t = e.target.closest && e.target.closest("button[data-copy]");
     if (!t) return;
     const url = t.getAttribute("data-copy");
     navigator.clipboard.writeText(url).then(() => {
+      const old = t.textContent;
       t.textContent = "Copied!";
-      setTimeout(() => (t.textContent = "Copy link"), 900);
+      setTimeout(() => (t.textContent = old), 900);
     });
   });
 
-  document.getElementById("copy").addEventListener("click", () => {
-    const lines = apps.map(a => `- ${a.name}: ${a.url}`).join("\n");
-    navigator.clipboard.writeText(lines).then(() => {
-      const btn = document.getElementById("copy");
-      btn.textContent = "Copied list!";
-      setTimeout(() => (btn.textContent = "Copy links"), 900);
+  if (copyBtn) {
+    copyBtn.addEventListener("click", () => {
+      const lines = apps.map(a => `- ${a.name}: ${a.url}`).join("\n");
+      navigator.clipboard.writeText(lines).then(() => {
+        const old = copyBtn.textContent;
+        copyBtn.textContent = "Copied list!";
+        setTimeout(() => (copyBtn.textContent = old), 900);
+      });
     });
-  });
+  }
 
   render();
 </script>
+
