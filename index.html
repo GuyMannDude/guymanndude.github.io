@@ -17,9 +17,62 @@
       name: "Chatbox Reader",
       repo: "chatbox-reader",
       url: "https://guymanndude.github.io/chatbox-reader/",
-      desc: "Paste -> speak/read tool (Vite)"
+      desc: "Paste -> speak/read tool (Vite)."
+    },
+    {
+      name: "Open WebUI API",
+      repo: "open-webui-api",
+      url: "https://guymanndude.github.io/open-webui-api/",
+      desc: "API tests for Open WebUI."
+    },
+    {
+      name: "Finnhub Logger",
+      repo: "finnhub-logger",
+      url: "https://guymanndude.github.io/finnhub-logger/",
+      desc: "Stocks logging & scheduler (Vite)."
+    },
+    {
+      name: "API Key Tester",
+      repo: "api-key-tester",
+      url: "https://guymanndude.github.io/api-key-tester/",
+      desc: "Quick API key tester (Vite)."
+    },
+    {
+      name: "Popular API",
+      repo: "popular-api",
+      url: "https://guymanndude.github.io/popular-api/",
+      desc: "Validate Neon token / API utilities."
+    },
+    {
+      name: "detect-explain-analyze",
+      repo: "the-terminator",
+      url: "https://guymanndude.github.io/the-terminator/",
+      desc: "Detect → explain → analyze (Vite)."
+    },
+    {
+      name: "scrape-export-capture",
+      repo: "scraper-companion",
+      url: "https://guymanndude.github.io/scraper-companion/",
+      desc: "Scrape → export → capture companion."
+    },
+    {
+      name: "automate-stocks-search",
+      repo: "stock-search",
+      url: "https://guymanndude.github.io/stock-search/",
+      desc: "Automated stock search helper (Vite)."
+    },
+    {
+      name: "design-visual-export-1",
+      repo: "orange-builder",
+      url: "https://guymanndude.github.io/orange-builder/",
+      desc: "Visual design export (Vite)."
+    },
+    {
+      name: "design-export-visual",
+      repo: "blue-builder",
+      url: "https://guymanndude.github.io/blue-builder/",
+      desc: "Design export visual (Vite)."
     }
-    // You can add more entries here.
   ];
 
   const list = document.getElementById("list");
@@ -33,7 +86,7 @@
       !f ||
       a.name.toLowerCase().includes(f) ||
       a.repo.toLowerCase().includes(f) ||
-      a.desc.toLowerCase().includes(f)
+      (a.desc || "").toLowerCase().includes(f)
     );
     empty.hidden = filtered.length !== 0;
     filtered.forEach(a => {
@@ -80,4 +133,3 @@
 
   render();
 </script>
-
