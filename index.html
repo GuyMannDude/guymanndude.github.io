@@ -1,4 +1,5 @@
 <script>
+document.addEventListener("DOMContentLoaded", () => {
   const apps = [
     { name: "Builder Responsive Export", repo: "builder-responsive-export", url: "https://guymanndude.github.io/builder-responsive-export/", desc: "Responsive builder export demo (Vite)." },
     { name: "Themed Page Builder", repo: "themed-page-builder", url: "https://guymanndude.github.io/themed-page-builder/", desc: "Themeable page builder (Vite + Router)." },
@@ -51,10 +52,10 @@
     });
   }
 
-  if (q) q.addEventListener("input", () => render(q.value));
-
+  // Make listeners optional so missing controls won't crash
+  q?.addEventListener("input", () => render(q.value));
   document.addEventListener("click", (e) => {
-    const t = e.target.closest && e.target.closest("button[data-copy]");
+    const t = e.target.closest?.("button[data-copy]");
     if (!t) return;
     const url = t.getAttribute("data-copy");
     navigator.clipboard.writeText(url).then(() => {
@@ -63,18 +64,16 @@
       setTimeout(() => (t.textContent = old), 900);
     });
   });
-
-  if (copyBtn) {
-    copyBtn.addEventListener("click", () => {
-      const lines = apps.map(a => `- ${a.name}: ${a.url}`).join("\n");
-      navigator.clipboard.writeText(lines).then(() => {
-        const old = copyBtn.textContent;
-        copyBtn.textContent = "Copied list!";
-        setTimeout(() => (copyBtn.textContent = old), 900);
-      });
+  copyBtn?.addEventListener("click", () => {
+    const lines = apps.map(a => `- ${a.name}: ${a.url}`).join("\n");
+    navigator.clipboard.writeText(lines).then(() => {
+      const old = copyBtn.textContent;
+      copyBtn.textContent = "Copied list!";
+      setTimeout(() => (copyBtn.textContent = old), 900);
     });
-  }
+  });
 
   render();
+});
 </script>
 
