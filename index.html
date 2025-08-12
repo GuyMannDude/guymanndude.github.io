@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Project Sparks — App Hub</title>
+  <meta name="description" content="Quick links to all deployed Famous/Vite apps by Project Sparks" />
+  <style>
+    :root {
+      --bg: #0b0f14; --card: #111826; --muted:#a9b2c0; --text:#e6edf6; --accent:#7dd3fc; --ring:#38bdf8;
+      --shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:20px}
+    h1{font-size:clamp(22px,3vw,32px);margin:0;letter-spacing:.3px}
+    .sub{color:var(--muted);font-size:14px}
+    .controls{display:flex;gap:10px;flex-wrap:wrap}
+    input[type="search"]{flex:1;min-width:240px;padding:10px 12px;border-radius:12px;border:1px solid #253246;background:#0d141f;color:var(--text);outline:none}
+    input[type="search"]:focus{border-color:var(--ring);box-shadow:0 0 0 3px rgba(56,189,248,.25)}
+    button{padding:10px 12px;border-radius:12px;border:1px solid #253246;background:#0d141f;color:var(--text);cursor:pointer}
+    button:hover{border-color:var(--ring)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-top:16px}
+    .card{background:linear-gradient(180deg,#0f172a 0%, #0b1220 100%);border:1px solid #1e293b;border-radius:16px;box-shadow:var(--shadow);padding:16px;display:flex;flex-direction:column;gap:10px}
+    .name{font-weight:600}
+    .desc{color:var(--muted);font-size:14px;line-height:1.35}
+    .row{display:flex;gap:8px;align-items:center}
+    .spacer{flex:1}
+    .pill{font-size:12px;color:#cbd5e1;border:1px solid #233044;border-radius:999px;padding:4px 8px}
+    .cta{background:#0b1522;border-color:#23425a}
+    .cta:hover{border-color:var(--accent)}
+    footer{margin:26px 0 12px;color:var(--muted);font-size:13px}
+    .hint{opacity:.9}
+    .empty{color:var(--muted);text-align:center;padding:40px;border:1px dashed #243042;border-radius:16px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Project Sparks — Apps Hub</h1>
+        <div class="sub">Your deployed Famous/Vite apps in one place. Edit this page to add/remove links.</div>
+      </div>
+      <div class="controls">
+        <input id="q" type="search" placeholder="Search apps…" autocomplete="off" />
+        <button id="copy">Copy links</button>
+      </div>
+    </header>
+
+    <section id="list" class="grid" aria-live="polite"></section>
+    <div id="empty" class="empty" hidden>No matches.</div>
+
+    <footer>
+      <div class="hint">Tip: Edit the <code>apps</code> array in the script to add new entries. Host this file in any repo (or your root <code>guymanndude.github.io</code> repo) and it will just work.</div>
+    </footer>
+  </div>
+
+  <script>
+    // --- Edit this list. Add your next apps here. ---
+    const apps = [
+      {
+        name: "Builder Responsive Export",
+        repo: "builder-responsive-export",
+        url: "https://guymanndude.github.io/builder-responsive-export/",
+        desc: "Responsive builder export demo (Vite)."
+      },
+      {
+        name: "Themed Page Builder",
+        repo: "themed-page-builder",
+        url: "https://guymanndude.github.io/themed-page-builder/",
+        desc: "Themeable page builder (Vite + Router)."
+      }
+      // { name: "Cool Wave Demo", repo: "cool-wave-demo", url: "https://guymanndude.github.io/cool-wave-demo/", desc: "Short note about what it does." }
+    ];
+
+    const list = document.getElementById('list');
+    const empty = document.getElementById('empty');
+    const q = document.getElementById('q');
+
+    function render(filter=""){
+      list.innerHTML = "";
+      const f = filter.trim().toLowerCase();
+      const filtered = apps.filter(a =>
+        !f || a.name.toLowerCase().includes(f) || a.repo.toLowerCase().includes(f) || a.desc.toLowerCase().includes(f)
+      );
+      empty.hidden = filtered.length !== 0;
+      filtered.forEach(a => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="row">
+            <div class="name">${a.name}</div>
+            <div class="spacer"></div>
+            <span class="pill">${a.repo}</span>
+          </div>
+          <div class="desc">${a.desc || ''}</div>
+          <div class="row">
+            <a class="cta" href="${a.url}" target="_blank" rel="noopener noreferrer">
+              <button class="cta">Open</button>
+            </a>
+            <button data-copy="${a.url}">Copy link</button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    q.addEventListener('input', () => render(q.value));
+
+    document.addEventListener('click', (e) => {
+      const t = e.target.closest('button[data-copy]');
+      if(!t) return;
+      const url = t.getAttribute('data-copy');
+      navigator.clipboard.writeText(url).then(() => {
+        t.textContent = 'Copied!';
+        setTimeout(() => (t.textContent = 'Copy link'), 900);
+      });
+    });
+
+    document.getElementById('copy').addEventListener('click', () => {
+      const lines = apps.map(a => `- ${a.name}: ${a.url}`).join('\n');
+      navigator.clipboard.writeText(lines).then(() => {
+        const btn = document.getElementById('copy');
+        btn.textContent = 'Copied list!';
+        setTimeout(() => (btn.textContent = 'Copy links'), 900);
+      });
+    });
+
+    render();
+  </script>
+</body>
+</html>
