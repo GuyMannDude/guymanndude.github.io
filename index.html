@@ -1,79 +1,121 @@
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const apps = [
-    { name: "Builder Responsive Export", repo: "builder-responsive-export", url: "https://guymanndude.github.io/builder-responsive-export/", desc: "Responsive builder export demo (Vite)." },
-    { name: "Themed Page Builder", repo: "themed-page-builder", url: "https://guymanndude.github.io/themed-page-builder/", desc: "Themeable page builder (Vite + Router)." },
-    { name: "Chatbox Reader", repo: "chatbox-reader", url: "https://guymanndude.github.io/chatbox-reader/", desc: "Paste -> speak/read tool (Vite)." },
-    { name: "Open WebUI API", repo: "open-webui-api", url: "https://guymanndude.github.io/open-webui-api/", desc: "API tests for Open WebUI." },
-    { name: "Finnhub Logger", repo: "finnhub-logger", url: "https://guymanndude.github.io/finnhub-logger/", desc: "Stocks logging & scheduler (Vite)." },
-    { name: "API Key Tester", repo: "api-key-tester", url: "https://guymanndude.github.io/api-key-tester/", desc: "Quick API key tester (Vite)." },
-    { name: "Popular API", repo: "popular-api", url: "https://guymanndude.github.io/popular-api/", desc: "Validate Neon token / API utilities." },
-    { name: "detect-explain-analyze", repo: "the-terminator", url: "https://guymanndude.github.io/the-terminator/", desc: "Detect → explain → analyze (Vite)." },
-    { name: "scrape-export-capture", repo: "scraper-companion", url: "https://guymanndude.github.io/scraper-companion/", desc: "Scrape → export → capture companion." },
-    { name: "automate-stocks-search", repo: "stock-search", url: "https://guymanndude.github.io/stock-search/", desc: "Automated stock search helper (Vite)." },
-    { name: "design-visual-export-1", repo: "orange-builder", url: "https://guymanndude.github.io/orange-builder/", desc: "Visual design export (Vite)." },
-    { name: "design-export-visual", repo: "blue-builder", url: "https://guymanndude.github.io/blue-builder/", desc: "Design export visual (Vite)." }
-  ];
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Project Sparks — App Hub</title>
+  <meta name="description" content="Links to all deployed Famous/Vite apps by Project Sparks" />
+  <style>
+    :root{
+      --bg:#0b0f14; --card:#101826; --ink:#e6edf6; --muted:#a9b2c0;
+      --ring:#38bdf8; --border:#1f2a3a; --shadow:0 10px 30px rgba(0,0,0,.25);
+      --accent:#7dd3fc;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    header{display:flex;flex-wrap:wrap;align-items:end;gap:12px;justify-content:space-between}
+    h1{margin:0;font-size:clamp(22px,3vw,34px);letter-spacing:.2px}
+    .sub{color:var(--muted);font-size:14px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin-top:18px}
+    .card{display:block;text-decoration:none;color:inherit;background:linear-gradient(180deg,#0f172a 0%, #0b1220 100%);
+          border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+    .card:hover{outline:2px solid var(--ring);outline-offset:0;border-color:#22354a}
+    .name{font-weight:600;margin:0 0 6px 0}
+    .desc{color:var(--muted);font-size:14px;line-height:1.35;margin:0}
+    .pill{display:inline-block;margin-top:10px;font-size:12px;color:#cbd5e1;border:1px solid #233044;border-radius:999px;padding:4px 8px}
+    footer{margin:28px 0 8px;color:var(--muted);font-size:13px}
+    .note{opacity:.9}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Project Sparks — Apps Hub</h1>
+        <div class="sub">Simple, fast, and unbreakable: pure HTML (no JavaScript).</div>
+      </div>
+    </header>
 
-  const list  = document.getElementById("list");
-  const empty = document.getElementById("empty");
-  const q     = document.getElementById("q");
-  const copyBtn = document.getElementById("copy");
+    <section class="grid">
+      <a class="card" href="https://guymanndude.github.io/builder-responsive-export/" target="_blank" rel="noopener">
+        <h3 class="name">Builder Responsive Export</h3>
+        <p class="desc">Responsive builder export demo (Vite).</p>
+        <span class="pill">builder-responsive-export</span>
+      </a>
 
-  function render(filter = "") {
-    if (!list || !empty) return;
-    list.innerHTML = "";
-    const f = filter.trim().toLowerCase();
-    const filtered = apps.filter(a =>
-      !f ||
-      a.name.toLowerCase().includes(f) ||
-      a.repo.toLowerCase().includes(f) ||
-      (a.desc || "").toLowerCase().includes(f)
-    );
-    empty.hidden = filtered.length !== 0;
-    filtered.forEach(a => {
-      const card = document.createElement("article");
-      card.className = "card";
-      card.innerHTML = `
-        <div class="row">
-          <div class="name">${a.name}</div>
-          <div class="spacer"></div>
-          <span class="pill">${a.repo}</span>
-        </div>
-        <div class="desc">${a.desc || ""}</div>
-        <div class="row">
-          <a class="cta" href="${a.url}" target="_blank" rel="noopener noreferrer">
-            <button class="cta">Open</button>
-          </a>
-          <button data-copy="${a.url}">Copy link</button>
-        </div>
-      `;
-      list.appendChild(card);
-    });
-  }
+      <a class="card" href="https://guymanndude.github.io/themed-page-builder/" target="_blank" rel="noopener">
+        <h3 class="name">Themed Page Builder</h3>
+        <p class="desc">Themeable page builder (Vite + Router).</p>
+        <span class="pill">themed-page-builder</span>
+      </a>
 
-  // Make listeners optional so missing controls won't crash
-  q?.addEventListener("input", () => render(q.value));
-  document.addEventListener("click", (e) => {
-    const t = e.target.closest?.("button[data-copy]");
-    if (!t) return;
-    const url = t.getAttribute("data-copy");
-    navigator.clipboard.writeText(url).then(() => {
-      const old = t.textContent;
-      t.textContent = "Copied!";
-      setTimeout(() => (t.textContent = old), 900);
-    });
-  });
-  copyBtn?.addEventListener("click", () => {
-    const lines = apps.map(a => `- ${a.name}: ${a.url}`).join("\n");
-    navigator.clipboard.writeText(lines).then(() => {
-      const old = copyBtn.textContent;
-      copyBtn.textContent = "Copied list!";
-      setTimeout(() => (copyBtn.textContent = old), 900);
-    });
-  });
+      <a class="card" href="https://guymanndude.github.io/chatbox-reader/" target="_blank" rel="noopener">
+        <h3 class="name">Chatbox Reader</h3>
+        <p class="desc">Paste → speak/read tool (Vite).</p>
+        <span class="pill">chatbox-reader</span>
+      </a>
 
-  render();
-});
-</script>
+      <a class="card" href="https://guymanndude.github.io/open-webui-api/" target="_blank" rel="noopener">
+        <h3 class="name">Open WebUI API</h3>
+        <p class="desc">API tests for Open WebUI.</p>
+        <span class="pill">open-webui-api</span>
+      </a>
+
+      <a class="card" href="https://guymanndude.github.io/finnhub-logger/" target="_blank" rel="noopener">
+        <h3 class="name">Finnhub Logger</h3>
+        <p class="desc">Stocks logging & scheduler (Vite).</p>
+        <span class="pill">finnhub-logger</span>
+      </a>
+
+      <a class="card" href="https://guymanndude.github.io/api-key-tester/" target="_blank" rel="noopener">
+        <h3 class="name">API Key Tester</h3>
+        <p class="desc">Quick API key tester (Vite).</p>
+        <span class="pill">api-key-tester</span>
+      </a>
+
+      <a class="card" href="https://guymanndude.github.io/popular-api/" target="_blank" rel="noopener">
+        <h3 class="name">Popular API</h3>
+        <p class="desc">Validate Neon token / API utilities.</p>
+        <span class="pill">popular-api</span>
+      </a>
+
+      <a class="card" href="https://guymanndude.github.io/the-terminator/" target="_blank" rel="noopener">
+        <h3 class="name">detect-explain-analyze</h3>
+        <p class="desc">Detect → explain → analyze (Vite).</p>
+        <span class="pill">the-terminator</span>
+      </a>
+
+      <a class="card" href="https://guymanndude.github.io/scraper-companion/" target="_blank" rel="noopener">
+        <h3 class="name">scrape-export-capture</h3>
+        <p class="desc">Scrape → export → capture companion.</p>
+        <span class="pill">scraper-companion</span>
+      </a>
+
+      <a class="card" href="https://guymanndude.github.io/stock-search/" target="_blank" rel="noopener">
+        <h3 class="name">automate-stocks-search</h3>
+        <p class="desc">Automated stock search helper.</p>
+        <span class="pill">stock-search</span>
+      </a>
+
+      <a class="card" href="https://guymanndude.github.io/orange-builder/" target="_blank" rel="noopener">
+        <h3 class="name">design-visual-export-1</h3>
+        <p class="desc">Visual design export (Vite).</p>
+        <span class="pill">orange-builder</span>
+      </a>
+
+      <a class="card" href="https://guymanndude.github.io/blue-builder/" target="_blank" rel="noopener">
+        <h3 class="name">design-export-visual</h3>
+        <p class="desc">Design export visual (Vite).</p>
+        <span class="pill">blue-builder</span>
+      </a>
+    </section>
+
+    <footer>
+      <div class="note">Add a new app: duplicate a card block above, change the name/repo/URL, commit & push.</div>
+    </footer>
+  </div>
+</body>
+</html>
 
